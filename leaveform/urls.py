@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import LeaveFormView,LeaveFormDetailView
+from .views import LeaveFormView,TimeLogView
 
 
 
 urlpatterns = [
-    path("Leaveform/",                   LeaveFormView.as_view(),              name='leaveform'),
-    path('leaveform/<int:id>/',           LeaveFormDetailView.as_view(),       name='leave-detail'),
+    path("leaveformlist/",                   LeaveFormView.as_view(),       name='leaveform-listcreate-view'),
+    path('leaveform/<int:id>/',              LeaveFormView.as_view(),       name='leaveform-detail-view'),
+    path("timeloglist/",                     TimeLogView.as_view(),         name='timelog-listcreate-view'),
+    path('timelog/<int:id>/',                TimeLogView.as_view(),         name='timelog-detail-view'),
 ]

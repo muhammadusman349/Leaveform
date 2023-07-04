@@ -1,10 +1,10 @@
 from rest_framework import status,generics
 from rest_framework.response import Response
-from account.serializers import Registrationserializer,Loginserializer,ChangePasswordSerializer,ForgetPasswordSerializer,ResetPasswordSerializer
+from account.serializers import Registrationserializer,Loginserializer,ChangePasswordSerializer,ForgetPasswordSerializer,ResetPasswordSerializer,OrganziationSerializer,DepartmentSerializer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.shortcuts import render
-
+from .models import Organziation,Department
 
 
 
@@ -82,3 +82,52 @@ class ResetPasswordView(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class OrganziationView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = []
+    serializer_class = OrganziationSerializer
+    queryset = Organziation.objects.all()
+    lookup_field = 'id'
+
+    def get(self, request, *args, **kwargs):
+        if 'id' in self.kwargs:
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+    
+class DepartmentView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = []
+    serializer_class = DepartmentSerializer
+    queryset = Department.objects.all()
+    lookup_field = 'id'
+
+    def get(self, request, *args, **kwargs):
+        if 'id' in self.kwargs:
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+    

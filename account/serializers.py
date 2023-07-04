@@ -1,4 +1,4 @@
-from account.models import User,OtpVerify
+from account.models import User,OtpVerify,Organziation,Department
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers,status
 import pyotp
@@ -16,7 +16,7 @@ class Registrationserializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields=('first_name','last_name','full_name','phone','email','password','password2')
+        fields=('first_name','last_name','full_name','phone','email','date_of_joining','employee_id','department','organziation','password','password2')
         read_only_fields=["created_at"]
         extra_kwargs = { 
                         'password': {'write_only': True}}
@@ -27,7 +27,11 @@ class Registrationserializer(serializers.ModelSerializer):
             last_name = validated_data.get('last_name'),
             full_name = validated_data.get('full_name'),
             phone = validated_data.get('phone'),
-            email = validated_data.get('email'))            
+            email = validated_data.get('email'),
+            department=validated_data.get('department'),
+            organziation=validated_data.get('organziation'),
+            date_of_joining=validated_data.get('date_of_joining'),
+            employee_id=validated_data.get('employee_id'))            
         user_obj.set_password(validated_data.get('password'))
         user_obj.is_active = False
         user_obj.save()
@@ -62,6 +66,8 @@ class Loginserializer(serializers.Serializer):
         attrs['first_name'] = str(user.first_name)
         attrs['last_name'] = str(user.last_name)
         attrs['username'] = str(user.full_name)
+        attrs['organziation'] = (user.organziation.id) 
+        attrs['is_owner'] = str(user.is_owner)
         attrs['phone'] = str(user.phone)
         attrs['email'] = str(user.email)
         attrs['access_token'] = str(token.access_token)
@@ -127,10 +133,6 @@ class ForgetPasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({"email": "email is required"})
         return attrs
 
-  
-
-
-
 class ResetPasswordSerializer(serializers.Serializer):
     otp = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
@@ -154,3 +156,19 @@ class ResetPasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({"error": "email is required"})
         return attrs
 
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields =['id',"name" ,"created_at", "updated_at"] 
+        read_only_fields = ['id',"created_at", "updated_at"]
+        
+
+
+class OrganziationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organziation
+        fields =["id", "name", "email","address","phone", "created_at", "updated_at"]
+        read_only_fields = ['id', "created_at", "updated_at"]
+             

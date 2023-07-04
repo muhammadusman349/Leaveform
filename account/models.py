@@ -1,6 +1,5 @@
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,PermissionsMixin)
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from django.db import models
-
 # Create your models here.
 
 
@@ -25,14 +24,38 @@ class UserManager(BaseUserManager):
         user.save()
         return user
     
+class Organziation(models.Model):
+    name         = models.CharField(max_length=120)
+    email        = models.EmailField(max_length=250,unique=True)
+    address      = models.CharField(max_length=120,blank=True,null=True)
+    phone        = models.CharField(max_length=100,blank=True ,null=True)
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)
 
-class User(AbstractBaseUser, PermissionsMixin):
+    def __str__(self):
+        return (self.email) 
+
+class Department(models.Model):
+    
+    name         = models.CharField(max_length=120)
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)
+   
+    def __str__(self):
+        return (self.name)         
+
+class User(AbstractBaseUser):
     first_name  = models.CharField(max_length=120)
     last_name  = models.CharField(max_length=120)
     full_name  = models.CharField(max_length=120)
-    email  = models.EmailField(max_length=255, unique=True, db_index=True)
-    phone = models.CharField(max_length=100,null=True)
+    employee_id = models.IntegerField(blank=True, null=True)
+    date_of_joining = models.DateTimeField(null=True)
+    email      = models.EmailField(max_length=255, unique=True, db_index=True)
+    phone      = models.CharField(max_length=100,null=True)
+    department = models.ForeignKey(Department,on_delete=models.CASCADE,blank=True,null=True)
+    organziation = models.ForeignKey(Organziation,on_delete=models.CASCADE,blank=True,null=True)
     is_approved = models.BooleanField(default= False)
+    is_superuser = models.BooleanField(default= False)
     is_verified = models.BooleanField(default= False)
     is_active = models.BooleanField(default= True)
     is_staff = models.BooleanField(default= False)
@@ -47,13 +70,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return (self.email)   
 
-      
-      
-    # def has_perm(self, perm, obj=None):
-    #     return self.is_superuser
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
     
-    # def has_module_perms(self, app_label):
-    #     return True
+    def has_module_perms(self, app_label):
+        return True
 
 class OtpVerify(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
