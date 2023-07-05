@@ -5,26 +5,27 @@ from account.models import User
 
 class LeaveForm(models.Model):
     STATUS_CHOICES = [
-        ("REVIEW", 'Review'),
-        ("APPROVE", 'Approve'),
-        ("REJECT", 'Reject'),
+        ("Review", 'Review'),
+        ("Approve", 'Approve'),
+        ("Reject", 'Reject'),
     ]
     REASON = [
-        ("SICK", 'Sick'),
-        ("ANNUAL", 'Annual'),
-        ("OTHER", 'Other'),
+        ("Sick", 'Sick'),
+        ("Annual", 'Annual'),
+        ("Other", 'Other'),
     ]
 
     LEAVE_TYPE = [
-        ("LEAVE", 'Leave'),
-        ("WFH", 'Wfh'),
+        ("Leave", 'Leave'),
+        ("Wfh", 'Wfh'),
     ]
 
     TYPE_OF_REQUEST = [
-        ("FULL DAY", 'Full Day'),
-        ("HALF DAY", 'Half Day'),
+        ("Full Day", 'Full Day'),
+        ("Half Day", 'Half Day'),
     ]
-
+    
+    applicant           = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     start_date          = models.DateField(verbose_name="Start date")
     end_date            = models.DateField(verbose_name="End date")
     reason              = models.CharField(max_length=50, blank=True, choices=REASON)

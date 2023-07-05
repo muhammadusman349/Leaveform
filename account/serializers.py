@@ -1,37 +1,50 @@
-from account.models import User,OtpVerify,Organziation,Department
+from account.models import User,OtpVerify,Organization,Department
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers,status
 import pyotp
 import base64
+import random
+import string
+import time
 from datetime import datetime
 from django.utils import timezone
 
 class generateKey:
     @staticmethod
-    def returnValue(userObj):
-        return str(timezone.now()) + str(datetime.date(datetime.now())) + str(userObj.id)
+    def return_value(user_obj):
+        timestamp = str(int(time.time()))
+        user_id = str(user_obj.id)
+        random_string = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        return timestamp + user_id + random_string
     
+   
 class Registrationserializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type":"password"},write_only=True)
     
     class Meta:
         model = User
-        fields=('first_name','last_name','full_name','phone','email','date_of_joining','employee_id','department','organziation','password','password2')
+        fields=('first_name','last_name','full_name','phone','email','date_of_joining','employee_id','department','organization','password','password2')
         read_only_fields=["created_at"]
         extra_kwargs = { 
-                        'password': {'write_only': True}}
-                       
+                        'password': {'write_only': True}} 
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"Password": "Password fields didn't match."})
+        return attrs
+    
     def create(self,validated_data):   
         user_obj = User(
-            first_name = validated_data.get('first_name'),
-            last_name = validated_data.get('last_name'),
-            full_name = validated_data.get('full_name'),
-            phone = validated_data.get('phone'),
-            email = validated_data.get('email'),
-            department=validated_data.get('department'),
-            organziation=validated_data.get('organziation'),
-            date_of_joining=validated_data.get('date_of_joining'),
-            employee_id=validated_data.get('employee_id'))            
+            first_name      = validated_data.get('first_name'),
+            last_name       = validated_data.get('last_name'),
+            full_name       = validated_data.get('full_name'),
+            phone           = validated_data.get('phone'),
+            email           = validated_data.get('email'),
+            department      = validated_data.get('department'),
+            organization    = validated_data.get('organization'),
+            date_of_joining = validated_data.get('date_of_joining'),
+            employee_id     = validated_data.get('employee_id'))  
+                  
         user_obj.set_password(validated_data.get('password'))
         user_obj.is_active = False
         user_obj.save()
@@ -62,20 +75,19 @@ class Loginserializer(serializers.Serializer):
 
 
         token = RefreshToken.for_user(user)
-        attrs['id'] = int(user.id)
-        attrs['first_name'] = str(user.first_name)
-        attrs['last_name'] = str(user.last_name)
-        attrs['username'] = str(user.full_name)
-        attrs['organziation'] = (user.organziation.id) 
-        attrs['is_owner'] = str(user.is_owner)
-        attrs['phone'] = str(user.phone)
-        attrs['email'] = str(user.email)
-        attrs['access_token'] = str(token.access_token)
+
+        attrs['id']            = int(user.id)
+        attrs['first_name']    = str(user.first_name)
+        attrs['last_name']     = str(user.last_name)
+        attrs['username']      = str(user.full_name)
+        attrs['organization']  = (user.organization.id) 
+        attrs['is_owner']      = str(user.is_owner)
+        attrs['phone']         = str(user.phone)
+        attrs['email']         = str(user.email)
+        attrs['access_token']  = str(token.access_token)
         attrs['refresh_token'] = str(token)
+        
         return attrs
-
-
-
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -117,14 +129,17 @@ class ForgetPasswordSerializer(serializers.Serializer):
         if email is not None:
             try:
                 userObj = User.objects.get(email__iexact=email)
-
-                key = base64.b32encode(generateKey.returnValue(userObj).encode())  
+                otp_obj = OtpVerify.objects.filter(user__id=userObj.id).first()
+                if otp_obj:
+                    otp_obj.delete()
+                key = base64.b32encode(generateKey.return_value(userObj).encode())  
                 otp_key = pyotp.TOTP(key)  
                 otp = otp_key.at(6)
                 otp_obj = OtpVerify()
                 otp_obj.user = userObj
                 otp_obj.otp = otp
                 otp_obj.save()
+                
             except Exception as e:
                 print("Exception", e) 
                 raise serializers.ValidationError(
@@ -166,9 +181,9 @@ class DepartmentSerializer(serializers.ModelSerializer):
         
 
 
-class OrganziationSerializer(serializers.ModelSerializer):
+class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Organziation
+        model = Organization
         fields =["id", "name", "email","address","phone", "created_at", "updated_at"]
         read_only_fields = ['id', "created_at", "updated_at"]
              

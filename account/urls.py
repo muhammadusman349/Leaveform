@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegistrationApi,LoginApiView,LogoutAPIView,ChangePasswordView,ForgetPasswordView,ResetPasswordView,OrganziationView,DepartmentView
+from .views import RegistrationApi,LoginApiView,LogoutAPIView,ChangePasswordView,ForgetPasswordView,ResetPasswordView,OrganizationView,DepartmentView
 from rest_framework_simplejwt import views as jwt_views
 
 
@@ -14,6 +14,6 @@ urlpatterns = [
     path('reset/password/',             ResetPasswordView.as_view(),            name='reset-password'),
     path('department/',                 DepartmentView.as_view(),               name='department-listcreate-view'),
     path('department/<int:id>/',        DepartmentView.as_view(),               name='department-detail-view'),
-    path('organziation/',               OrganziationView.as_view(),             name='organziation-listcreate-view'),
-    path('organziation/<int:id>/',      OrganziationView.as_view(),             name='organziation-detail-view'),
+    path('organziation/',               OrganizationView.as_view(),             name='organziation-listcreate-view'),
+    path('organziation/<int:id>/',      OrganizationView.as_view(),             name='organziation-detail-view'),
 ]

@@ -1,10 +1,10 @@
 from rest_framework import status,generics
 from rest_framework.response import Response
-from account.serializers import Registrationserializer,Loginserializer,ChangePasswordSerializer,ForgetPasswordSerializer,ResetPasswordSerializer,OrganziationSerializer,DepartmentSerializer
+from account.serializers import Registrationserializer,Loginserializer,ChangePasswordSerializer,ForgetPasswordSerializer,ResetPasswordSerializer,OrganizationSerializer,DepartmentSerializer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.shortcuts import render
-from .models import Organziation,Department
+from .models import Organization,Department
 
 
 
@@ -83,10 +83,10 @@ class ResetPasswordView(generics.GenericAPIView):
 
 
 
-class OrganziationView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class OrganizationView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = []
-    serializer_class = OrganziationSerializer
-    queryset = Organziation.objects.all()
+    serializer_class = OrganizationSerializer
+    queryset = Organization.objects.all()
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):

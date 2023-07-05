@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
     
-class Organziation(models.Model):
+class Organization(models.Model):
     name         = models.CharField(max_length=120)
     email        = models.EmailField(max_length=250,unique=True)
     address      = models.CharField(max_length=120,blank=True,null=True)
@@ -45,23 +45,23 @@ class Department(models.Model):
         return (self.name)         
 
 class User(AbstractBaseUser):
-    first_name  = models.CharField(max_length=120)
-    last_name  = models.CharField(max_length=120)
-    full_name  = models.CharField(max_length=120)
-    employee_id = models.IntegerField(blank=True, null=True)
+    first_name      = models.CharField(max_length=120)
+    last_name       = models.CharField(max_length=120)
+    full_name       = models.CharField(max_length=120)
+    employee_id     = models.IntegerField(blank=True, null=True)
     date_of_joining = models.DateTimeField(null=True)
-    email      = models.EmailField(max_length=255, unique=True, db_index=True)
-    phone      = models.CharField(max_length=100,null=True)
-    department = models.ForeignKey(Department,on_delete=models.CASCADE,blank=True,null=True)
-    organziation = models.ForeignKey(Organziation,on_delete=models.CASCADE,blank=True,null=True)
-    is_approved = models.BooleanField(default= False)
-    is_superuser = models.BooleanField(default= False)
-    is_verified = models.BooleanField(default= False)
-    is_active = models.BooleanField(default= True)
-    is_staff = models.BooleanField(default= False)
-    is_owner = models.BooleanField(default= False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    email           = models.EmailField(max_length=255, unique=True, db_index=True)
+    phone           = models.CharField(max_length=100,null=True)
+    department      = models.ForeignKey(Department,on_delete=models.CASCADE,blank=True,null=True)
+    organization    = models.ForeignKey(Organization,on_delete=models.CASCADE,blank=True,null=True)
+    is_approved     = models.BooleanField(default= False)
+    is_superuser    = models.BooleanField(default= False)
+    is_verified     = models.BooleanField(default= False)
+    is_active       = models.BooleanField(default= True)
+    is_staff        = models.BooleanField(default= False)
+    is_owner        = models.BooleanField(default= False)
+    created_at      = models.DateTimeField(auto_now_add=True)
+    updated_at      = models.DateTimeField(auto_now=True)
     
     USERNAME_FIELD = 'email'
     objects = UserManager()

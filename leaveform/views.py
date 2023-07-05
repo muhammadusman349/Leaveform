@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .models import LeaveForm #,TimeLog
-from .serializers import LeaveFormSerializer #,TimeLogSerializer
+from .models import LeaveForm ,TimeLog
+from .serializers import LeaveFormSerializer ,TimeLogSerializer
 from rest_framework import generics, permissions, status
 # Create your views here.
 
 
-class LeaveFormView(generics.ListCreateAPIView):
+class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = []
     serializer_class = LeaveFormSerializer
     queryset = LeaveForm.objects.all()
@@ -32,10 +32,10 @@ class LeaveFormView(generics.ListCreateAPIView):
         return super().destroy(request, *args, **kwargs)
     
 
-class TimeLogView(generics.RetrieveUpdateDestroyAPIView):
+class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = []
-    # serializer_class = TimeLogSerializer
-    # queryset = TimeLog.objects.all()
+    serializer_class = TimeLogSerializer
+    queryset = TimeLog.objects.all()
     lookup_field = 'id'
     
 
