@@ -35,24 +35,15 @@ class Organization(models.Model):
     def __str__(self):
         return (self.email) 
 
-class Department(models.Model):
-    
-    name         = models.CharField(max_length=120)
-    created_at   = models.DateTimeField(auto_now_add=True)
-    updated_at   = models.DateTimeField(auto_now=True)
-   
-    def __str__(self):
-        return (self.name)         
-
+        
 class User(AbstractBaseUser):
     first_name      = models.CharField(max_length=120)
     last_name       = models.CharField(max_length=120)
-    full_name       = models.CharField(max_length=120)
     employee_id     = models.IntegerField(blank=True, null=True)
-    date_of_joining = models.DateTimeField(null=True)
+    date_of_joining = models.DateField(null=True)
     email           = models.EmailField(max_length=255, unique=True, db_index=True)
     phone           = models.CharField(max_length=100,null=True)
-    department      = models.ForeignKey(Department,on_delete=models.CASCADE,blank=True,null=True)
+    department      = models.ForeignKey('account.Department',on_delete=models.CASCADE,blank=True,null=True)
     organization    = models.ForeignKey(Organization,on_delete=models.CASCADE,blank=True,null=True)
     is_approved     = models.BooleanField(default= False)
     is_superuser    = models.BooleanField(default= False)
@@ -78,7 +69,17 @@ class User(AbstractBaseUser):
 
 class OtpVerify(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    otp = models.IntegerField()
+    otp  = models.IntegerField()
     
     def __str__(self):
         return str(self.user)  
+    
+class Department(models.Model):
+    
+    manager      = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name='managed')
+    name         = models.CharField(max_length=120)
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)
+   
+    def __str__(self):
+        return (self.name) 

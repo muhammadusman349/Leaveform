@@ -23,11 +23,26 @@ class Registrationserializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields=('first_name','last_name','full_name','phone','email','date_of_joining','employee_id','department','organization','password','password2')
-        read_only_fields=["created_at"]
+        fields=(
+            'first_name',
+            'last_name',
+            'phone',
+            'email',
+            'date_of_joining',
+            'employee_id',
+            'department',
+            'organization',
+            'password',
+            'password2',
+            'created_at',
+            'updated_at',
+            )
+        read_only_fields=["created_at","updated_at"]
         extra_kwargs = { 
-                        'password': {'write_only': True}} 
-
+                        'password': {'write_only': True},
+                        'organization':{'required':False}
+                        } 
+                        
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"Password": "Password fields didn't match."})
@@ -37,7 +52,6 @@ class Registrationserializer(serializers.ModelSerializer):
         user_obj = User(
             first_name      = validated_data.get('first_name'),
             last_name       = validated_data.get('last_name'),
-            full_name       = validated_data.get('full_name'),
             phone           = validated_data.get('phone'),
             email           = validated_data.get('email'),
             department      = validated_data.get('department'),
@@ -79,7 +93,6 @@ class Loginserializer(serializers.Serializer):
         attrs['id']            = int(user.id)
         attrs['first_name']    = str(user.first_name)
         attrs['last_name']     = str(user.last_name)
-        attrs['username']      = str(user.full_name)
         attrs['organization']  = (user.organization.id) 
         attrs['is_owner']      = str(user.is_owner)
         attrs['phone']         = str(user.phone)
@@ -176,14 +189,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields =['id',"name" ,"created_at", "updated_at"] 
+        fields =['id',"manager","name" ,"created_at", "updated_at"] 
         read_only_fields = ['id',"created_at", "updated_at"]
         
 
-
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organization
-        fields =["id", "name", "email","address","phone", "created_at", "updated_at"]
-        read_only_fields = ['id', "created_at", "updated_at"]
-             

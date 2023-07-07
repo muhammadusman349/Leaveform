@@ -6,7 +6,7 @@ from rest_framework import generics, permissions, status
 
 
 class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = []
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = LeaveFormSerializer
     queryset = LeaveForm.objects.all()
     lookup_field = 'id'
@@ -33,7 +33,7 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
     
 
 class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = []
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = TimeLogSerializer
     queryset = TimeLog.objects.all()
     lookup_field = 'id'
