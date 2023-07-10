@@ -6,12 +6,26 @@ from account.serializers import (
                                  ChangePasswordSerializer,
                                  ForgetPasswordSerializer,
                                  ResetPasswordSerializer,
-                                 DepartmentSerializer)
+                                 DepartmentSerializer,
+                                 UserListSerializer,
+                                 )
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import permissions
 from django.shortcuts import render
 from .models import Department,User
 
+
+class UserView(generics.ListAPIView):
+    permission_classes      = [permissions.IsAuthenticated]
+    serializer_class        = UserListSerializer
+    queryset                = User.objects.all()
+    lookup_field            = 'id'
+  
+    def get(self, request, *args, **kwargs):
+        if 'id' in self.kwargs:
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            return self.list(request, *args, **kwargs)
 
 class RegistrationApi(generics.GenericAPIView):
     permission_classes      = [permissions.IsAuthenticated]
@@ -24,6 +38,7 @@ class RegistrationApi(generics.GenericAPIView):
             user = serializer.save()
             user.organization=self.request.user.organization
             user.employee_id = str(user.id)
+            user.is_active = True
             user.save()
             return Response(serializer.data,status=status.HTTP_200_OK)       
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

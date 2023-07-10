@@ -5,6 +5,7 @@ class LeaveFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = LeaveForm
         fields=(
+            'id',
             'applicant',
             'start_date',
             'end_date',
@@ -14,6 +15,7 @@ class LeaveFormSerializer(serializers.ModelSerializer):
             'leave_type',
             'type_of_request',
             'comment',
+            'approve_by',
             'created_at',
             'updated_at',
             )

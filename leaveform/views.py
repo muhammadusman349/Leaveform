@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework.response import Response
+
 from .models import LeaveForm ,TimeLog
 from .serializers import LeaveFormSerializer ,TimeLogSerializer
 from rest_framework import generics, permissions, status
@@ -7,9 +9,9 @@ from rest_framework import generics, permissions, status
 
 class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = LeaveFormSerializer
-    queryset = LeaveForm.objects.all()
-    lookup_field = 'id'
+    serializer_class   = LeaveFormSerializer
+    queryset           = LeaveForm.objects.all()
+    lookup_field       = 'id'
     
 
    
@@ -18,9 +20,21 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
-
+        
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset  = LeaveForm.objects.filter(applicant__id = self.request.user.id)
+        return queryset 
+    
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+            # user=self.request.user
+            serializer = LeaveFormSerializer(data = request.data)
+            if serializer.is_valid():
+                user = self.request.user
+                leave_obj= serializer.save(applicant=user)
+                leave_obj.save()
+                return Response(serializer.data,status=status.HTTP_200_OK) 
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
 
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
@@ -34,9 +48,9 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
 
 class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TimeLogSerializer
-    queryset = TimeLog.objects.all()
-    lookup_field = 'id'
+    serializer_class   = TimeLogSerializer
+    queryset           = TimeLog.objects.all()
+    lookup_field       = 'id'
     
 
     def get(self, request, *args, **kwargs):

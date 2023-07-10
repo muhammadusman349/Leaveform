@@ -17,13 +17,13 @@ class generateKey:
         random_string = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         return timestamp + user_id + random_string
     
-   
-class Registrationserializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type":"password"},write_only=True)
     
     class Meta:
         model = User
         fields=(
+            'id',
             'first_name',
             'last_name',
             'phone',
@@ -40,6 +40,35 @@ class Registrationserializer(serializers.ModelSerializer):
         read_only_fields=["created_at","updated_at"]
         extra_kwargs = { 
                         'password': {'write_only': True},
+
+                        'organization':{'required':False}
+                        } 
+
+
+class Registrationserializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(style={"input_type":"password"},write_only=True)
+    
+    class Meta:
+        model = User
+        fields=(
+            'id',
+            'first_name',
+            'last_name',
+            'phone',
+            'email',
+            'date_of_joining',
+            'employee_id',
+            'department',
+            'organization',
+            'password',
+            'password2',
+            'created_at',
+            'updated_at',
+            )
+        read_only_fields=["created_at","updated_at"]
+        extra_kwargs = { 
+                        'password': {'write_only': True},
+
                         'organization':{'required':False}
                         } 
                         
@@ -101,7 +130,6 @@ class Loginserializer(serializers.Serializer):
         attrs['refresh_token'] = str(token)
         
         return attrs
-
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
@@ -189,7 +217,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields =['id',"manager","name" ,"created_at", "updated_at"] 
-        read_only_fields = ['id',"created_at", "updated_at"]
+        fields =["id","manager","name" ,"created_at", "updated_at"] 
+        read_only_fields = ["id","created_at", "updated_at"]
         
 
