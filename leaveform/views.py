@@ -23,16 +23,15 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
         
     def get_queryset(self):
         queryset = self.queryset
-        queryset  = LeaveForm.objects.filter(applicant__id = self.request.user.id)
+        if 'id' not in self.kwargs:
+            queryset  = LeaveForm.objects.filter(applicant__id = self.request.user.id)
         return queryset 
     
     def post(self, request, *args, **kwargs):
             # user=self.request.user
             serializer = LeaveFormSerializer(data = request.data)
             if serializer.is_valid():
-                user = self.request.user
-                leave_obj= serializer.save(applicant=user)
-                leave_obj.save()
+                serializer.save(applicant= self.request.user)
                 return Response(serializer.data,status=status.HTTP_200_OK) 
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
 
@@ -40,6 +39,14 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
         return super().put(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
+        serializer = LeaveFormSerializer(data = request.data)
+        if serializer.is_valid():
+            user=self.request.user
+            leave_obj= serializer.save()
+            leave_obj.approve_by=user
+        
+            print('......./////[1]\\\\\\.......',leave_obj)
+
         return super().patch(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
@@ -58,6 +65,13 @@ class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
+    
+    def get_queryset(self):
+
+        queryset = self.queryset
+        if 'id' not in self.kwargs:
+            queryset  = LeaveForm.objects.filter(applicant__organization__id = self.request.user.organization.id)
+        return queryset 
 
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
