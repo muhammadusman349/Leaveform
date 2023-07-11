@@ -62,4 +62,12 @@ class TimeLog(models.Model):
     def __str__(self):
         return (self.task_name)
 
- 
+
+class Comment(models.Model):
+    comment      = models.TextField()
+    comment_type = models.CharField(max_length=120)
+    comment_id   = models.IntegerField()
+    edited       = models.BooleanField(default=False)
+    created_by   = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)   

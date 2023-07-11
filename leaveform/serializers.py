@@ -1,7 +1,8 @@
 from rest_framework import serializers,status
-from .models import LeaveForm ,TimeLog
+from .models import LeaveForm ,TimeLog,Comment
 
 class LeaveFormSerializer(serializers.ModelSerializer):
+    applicant = serializers.SerializerMethodField()
     class Meta:
         model = LeaveForm
         fields=(
@@ -19,7 +20,14 @@ class LeaveFormSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             )
-
+    def get_applicant(self,obj):
+        return {
+                "id": obj.applicant.id,
+                "first_name":obj.applicant.first_name,
+                "last_name":obj.applicant.last_name,
+                "email":obj.applicant.email,
+                }
+         
 
 class TimeLogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,4 +44,16 @@ class TimeLogSerializer(serializers.ModelSerializer):
                 'updated_at',
                 
                 )
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = (  'id',
+                    'comment_id',
+                    'comment_type',
+                    'edited',
+                    'created_by',
+                    'created_at',
+                    'updated_at',
+                 )
 
