@@ -14,7 +14,6 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
     lookup_field       = 'id'
     
 
-   
     def get(self, request, *args, **kwargs):
         if 'id' in self.kwargs:
             return self.retrieve(request, *args, **kwargs)
@@ -28,7 +27,6 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
         return queryset 
     
     def post(self, request, *args, **kwargs):
-            # user=self.request.user
             serializer = LeaveFormSerializer(data = request.data)
             if serializer.is_valid():
                 serializer.save(applicant= self.request.user)
@@ -39,15 +37,21 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
         return super().put(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        serializer = LeaveFormSerializer(data = request.data)
-        if serializer.is_valid():
-            user=self.request.user
-            leave_obj= serializer.save()
-            leave_obj.approve_by=user
-        
-            print('......./////[1]\\\\\\.......',leave_obj)
-
         return super().patch(request, *args, **kwargs)
+ 
+        # instance = LeaveForm.objects.get(id=self.kwargs["id"])
+        # serializer = LeaveFormSerializer(instance,data = request.data)
+        # if serializer.is_valid():
+        #     user=self.request.user
+        #     print("user......",user)
+        #     leave_obj= serializer.save()
+        #     if leave_obj.status == "Approve":
+        #         leave_obj.approve_by=user
+        #         leave_obj.save()
+        #         print("leave_obj....",leave_obj)
+        #     return Response(serializer.data,status=status.HTTP_200_OK)
+        # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)  
+        
 
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)

@@ -32,6 +32,12 @@ class RegistrationApi(generics.GenericAPIView):
     serializer_class        = Registrationserializer
     queryset                = User.objects.all()
 
+    def get_queryset(self):
+        queryset = self.queryset
+        if 'id' not in self.kwargs:
+            queryset= User.objects.filter(organization__id=self.request.user.organization.id)
+        return queryset
+    
     def post(self, request, *args, **kwargs):
         serializer = Registrationserializer(data=request.data)
         if serializer.is_valid():
@@ -109,6 +115,13 @@ class DepartmentView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyA
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if 'id' not in self.kwargs:
+            queryset = Department.objects.filter(manager__organization__id=self.request.user.organization.id)
+        return queryset
+
 
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
