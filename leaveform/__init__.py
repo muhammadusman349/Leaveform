@@ -29,5 +29,5 @@ TIMELOG_STATUS_CHOICES = [
 
 Comment_Type_Choice=[
                      ("Leave", 'Leave'),
-                     ("Wfh", 'Wfh'),
+                     ("TimeLog", 'TimeLog'),
                     ]
