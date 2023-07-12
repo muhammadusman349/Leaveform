@@ -1,5 +1,6 @@
 from rest_framework import serializers,status
-from .models import LeaveForm ,TimeLog,Comment
+from .models import LeaveForm ,TimeLog,Comment,CommentFile
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 class LeaveFormSerializer(serializers.ModelSerializer):
     applicant = serializers.SerializerMethodField()
@@ -45,13 +46,20 @@ class TimeLogSerializer(serializers.ModelSerializer):
                 
                 )
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentFile
+        fields = ('id','comment','file')
+class CommentSerializer(WritableNestedModelSerializer):
+    commentfile = CommentFileSerializer()
     class Meta:
         model = Comment
-        fields = (  'id',
+        fields = ( 
+                    'id',
                     'comment_id',
                     'comment_type',
                     'edited',
+                    'commentfile',
                     'created_by',
                     'created_at',
                     'updated_at',

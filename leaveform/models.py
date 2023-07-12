@@ -1,27 +1,7 @@
 from django.db import models
 from account.models import User
+from .__init__ import REASON ,LEAVE_TYPE,TYPE_OF_REQUEST,STATUS_CHOICES,TIMELOG_STATUS_CHOICES,Comment_Type_Choice
 # Create your models here.
-
-STATUS_CHOICES = [
-        ("Review", 'Review'),
-        ("Approve", 'Approve'),
-        ("Reject", 'Reject'),
-    ]
-REASON = [
-        ("Sick", 'Sick'),
-        ("Annual", 'Annual'),
-        ("Other", 'Other'),
-    ]
-
-LEAVE_TYPE = [
-        ("Leave", 'Leave'),
-        ("Wfh", 'Wfh'),
-    ]
-
-TYPE_OF_REQUEST = [
-        ("Full Day", 'Full Day'),
-        ("Half Day", 'Half Day'),
-    ]
 
 
 class LeaveForm(models.Model):
@@ -44,10 +24,6 @@ class LeaveForm(models.Model):
         return (self.status)   
 
 
-TIMELOG_STATUS_CHOICES = [
-        ("Approve", 'Approve'),
-        ("Reject", 'Reject'),
-    ]
 class TimeLog(models.Model):
     
     task_name    = models.CharField(max_length=120)
@@ -65,9 +41,19 @@ class TimeLog(models.Model):
 
 class Comment(models.Model):
     comment      = models.TextField()
-    comment_type = models.CharField(max_length=120)
+    comment_type = models.CharField(max_length=120,choices=Comment_Type_Choice)
     comment_id   = models.IntegerField()
     edited       = models.BooleanField(default=False)
     created_by   = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     created_at   = models.DateTimeField(auto_now_add=True)
     updated_at   = models.DateTimeField(auto_now=True)   
+
+    def __str__(self):
+        return str(self.created_by)
+    
+class CommentFile(models.Model):
+    comment = models.ForeignKey(Comment,on_delete=models.CASCADE,null=True,blank=True)
+    file    = models.FileField(upload_to='comment_file/',null=True,blank=True)
+
+    def __str__(self):
+        return str(self.comment)
