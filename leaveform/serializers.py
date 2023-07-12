@@ -53,6 +53,7 @@ class CommentFileSerializer(serializers.ModelSerializer):
 class CommentSerializer(WritableNestedModelSerializer):
     commentfile = CommentFileSerializer(many=True,required=False)
     class Meta:
+        
         model = Comment
         fields = ( 
                     'id',
