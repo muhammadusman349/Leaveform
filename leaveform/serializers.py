@@ -26,7 +26,7 @@ class LeaveFormSerializer(serializers.ModelSerializer):
                 "id": obj.applicant.id,
                 "first_name":obj.applicant.first_name,
                 "last_name":obj.applicant.last_name,
-                "email":obj.applicant.email,
+                "email":obj.applicant.email
                 }
          
 
@@ -43,7 +43,7 @@ class TimeLogSerializer(serializers.ModelSerializer):
                 'comment',
                 'created_at',
                 'updated_at',
-                
+
                 )
 
 class CommentFileSerializer(serializers.ModelSerializer):
@@ -53,10 +53,11 @@ class CommentFileSerializer(serializers.ModelSerializer):
 class CommentSerializer(WritableNestedModelSerializer):
     commentfile = CommentFileSerializer(many=True,required=False)
     class Meta:
-        
+
         model = Comment
         fields = ( 
                     'id',
+                    'comment',
                     'comment_id',
                     'comment_type',
                     'edited',
@@ -64,5 +65,5 @@ class CommentSerializer(WritableNestedModelSerializer):
                     'created_by',
                     'created_at',
                     'updated_at',
-                 )
+                )
 

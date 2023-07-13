@@ -1,6 +1,6 @@
 from django.db import models
 from account.models import User
-from .__init__ import REASON ,LEAVE_TYPE,TYPE_OF_REQUEST,STATUS_CHOICES,TIMELOG_STATUS_CHOICES,Comment_Type_Choice
+from .__init__ import REASON ,LEAVE_TYPE,TYPE_OF_REQUEST,STATUS_CHOICES,TIMELOG_STATUS_CHOICES,COMMENT_TYPE_CHOICE
 # Create your models here.
 
 
@@ -41,7 +41,7 @@ class TimeLog(models.Model):
 
 class Comment(models.Model):
     comment      = models.TextField()
-    comment_type = models.CharField(max_length=120,choices=Comment_Type_Choice)
+    comment_type = models.CharField(max_length=120,choices=COMMENT_TYPE_CHOICE)
     comment_id   = models.IntegerField()
     edited       = models.BooleanField(default=False)
     created_by   = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
@@ -53,7 +53,7 @@ class Comment(models.Model):
     
 class CommentFile(models.Model):
     comment = models.ForeignKey(Comment,on_delete=models.CASCADE,null=True,blank=True)
-    file    = models.FileField(upload_to='comment_file/',null=True,blank=True)
+    file    = models.FileField(upload_to='Comment_File/',null=True,blank=True)
 
     def __str__(self):
         return str(self.comment)

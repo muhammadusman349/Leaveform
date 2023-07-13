@@ -1,6 +1,3 @@
-
-
-
 STATUS_CHOICES = [
         ("Review", 'Review'),
         ("Approve", 'Approve'),
@@ -27,7 +24,7 @@ TIMELOG_STATUS_CHOICES = [
         ("Reject", 'Reject'),
     ]
 
-Comment_Type_Choice=[
-                     ("Leave", 'Leave'),
-                     ("TimeLog", 'TimeLog'),
-                    ]
+COMMENT_TYPE_CHOICE=[
+        ("Leave", 'Leave'),
+        ("TimeLog", 'TimeLog'),
+    ]
