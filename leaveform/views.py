@@ -104,7 +104,9 @@ class CommentView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
+    def get_queryset(self):
 
+        return 
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 

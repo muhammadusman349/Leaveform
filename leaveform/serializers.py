@@ -58,8 +58,8 @@ class CommentSerializer(WritableNestedModelSerializer):
         fields = ( 
                     'id',
                     'comment',
-                    'comment_id',
                     'comment_type',
+                    'comment_type_id',
                     'edited',
                     'commentfile',
                     'created_by',

@@ -26,6 +26,18 @@ class UserView(generics.ListAPIView):
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
+class UserApproveView(generics.GenericAPIView):
+    permission_classes      = [permissions.IsAuthenticated]  
+    def post(self,request,*args,**kwargs):
+        try:
+            id=self.request.query_params.get('id',None)
+            user=User.objects.get(id=id)
+            user.is_verified=True
+            user.is_approved = True
+            user.save()
+            return Response({"User":"User is approve"},status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"Error":"User is Not Exist"},status=status.HTTP_400_BAD_REQUEST)    
 
 class RegistrationApi(generics.GenericAPIView):
     permission_classes      = [permissions.IsAuthenticated]
