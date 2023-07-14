@@ -104,12 +104,21 @@ class CommentView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
-    def get_queryset(self):
-
-        return 
+        
+    def get_queryset(self, *args, **kwargs):
+        if 'id' not in kwargs:
+            comment_type = self.request.query_params.get('comment_type',None)
+            comment_type_id = self.request.query_params.get('comment_type_id',None)
+            self.queryset = Comment.objects.filter(comment_type=comment_type,comment_type_id=comment_type_id)
+        return self.queryset
+    
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
-
+        serializer = CommentSerializer(data = request.data)
+        if serializer.is_valid():
+                serializer.save(created_by= self.request.user) 
+                return Response(serializer.data,status=status.HTTP_200_OK) 
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+     
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
 

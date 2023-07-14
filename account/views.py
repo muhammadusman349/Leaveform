@@ -35,7 +35,7 @@ class UserApproveView(generics.GenericAPIView):
             user.is_verified=True
             user.is_approved = True
             user.save()
-            return Response({"User":"User is approve"},status=status.HTTP_200_OK)
+            return Response({"Message":"User is approve"},status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"Error":"User is Not Exist"},status=status.HTTP_400_BAD_REQUEST)    
 
