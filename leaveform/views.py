@@ -111,7 +111,7 @@ class CommentView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
             comment_type_id = self.request.query_params.get('comment_type_id',None)
             self.queryset = Comment.objects.filter(comment_type=comment_type,comment_type_id=comment_type_id)
         return self.queryset
-    
+     
     def post(self, request, *args, **kwargs):
         serializer = CommentSerializer(data = request.data)
         if serializer.is_valid():
