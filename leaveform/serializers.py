@@ -29,8 +29,18 @@ class LeaveFormSerializer(serializers.ModelSerializer):
                 "email":obj.applicant.email
                 }
          
-
-class TimeLogSerializer(serializers.ModelSerializer):
+class TimeLogActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model= TimeLogActivity
+        fields = (
+                   'id',
+                   'name',
+                   'start_time',
+                   'end_time',
+                )
+        
+class TimeLogSerializer(WritableNestedModelSerializer):
+    activity = TimeLogActivitySerializer(many=True,required=False)
     class Meta:
         model = TimeLog
         fields=(
@@ -40,6 +50,7 @@ class TimeLogSerializer(serializers.ModelSerializer):
                 'end_date',
                 'assign_to',
                 'status',
+                'activity',
                 'comment',
                 'created_at',
                 'updated_at',
@@ -66,13 +77,5 @@ class CommentSerializer(WritableNestedModelSerializer):
                     'created_at',
                     'updated_at',
                 )
-class TimeLogActivitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model= TimeLogActivity
-        fields = (
-                   'id',
-                   'name',
-                   'start_time',
-                   'end_time',
-                )
+
 

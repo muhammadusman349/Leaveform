@@ -39,12 +39,15 @@ class TimeLog(models.Model):
         return (self.task_name)
 
 class TimeLogActivity(models.Model):
+    timelog = models.ForeignKey(TimeLog, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=120)
     start_time = models.DateTimeField(null=True,blank=True)
     end_time = models.DateTimeField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
+    def __str__(self):
+        return (self.task_name)
 
 class Comment(models.Model):
     comment = models.TextField()
