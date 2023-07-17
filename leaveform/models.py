@@ -12,7 +12,6 @@ class LeaveForm(models.Model):
     leave_type = models.CharField(max_length=50, choices=LEAVE_TYPE)
     type_of_request = models.CharField(max_length=50, choices=TYPE_OF_REQUEST)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
-    comment = models.TextField()
     approve_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name="approve_by")
     start_date = models.DateField(verbose_name="Start date")
     end_date = models.DateField(verbose_name="End date")
@@ -28,7 +27,6 @@ class TimeLog(models.Model):
     
     task_name = models.CharField(max_length=120)
     status = models.CharField(max_length=50,choices=TIMELOG_STATUS_CHOICES)
-    comment = models.TextField()
     start_date = models.DateField(null=True,blank=True)
     end_date = models.DateField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,7 +45,7 @@ class TimeLogActivity(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return (self.task_name)
+        return (self.name)
 
 class Comment(models.Model):
     comment = models.TextField()

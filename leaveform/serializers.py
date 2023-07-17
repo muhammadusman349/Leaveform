@@ -6,7 +6,7 @@ class LeaveFormSerializer(serializers.ModelSerializer):
     applicant = serializers.SerializerMethodField()
     class Meta:
         model = LeaveForm
-        fields=(
+        fields=[
             'id',
             'applicant',
             'start_date',
@@ -16,11 +16,10 @@ class LeaveFormSerializer(serializers.ModelSerializer):
             'leave_detail',
             'leave_type',
             'type_of_request',
-            'comment',
             'approve_by',
             'created_at',
             'updated_at',
-            )
+            ]
     def get_applicant(self,obj):
         return {
                 "id": obj.applicant.id,
@@ -32,41 +31,46 @@ class LeaveFormSerializer(serializers.ModelSerializer):
 class TimeLogActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model= TimeLogActivity
-        fields = (
+        fields = [
                    'id',
+                   'timelog',
                    'name',
                    'start_time',
                    'end_time',
-                )
+        ]
         
 class TimeLogSerializer(WritableNestedModelSerializer):
-    activity = TimeLogActivitySerializer(many=True,required=False)
+    activity = TimeLogActivitySerializer(many=True,source='timelogactivity_set', required=False)
     class Meta:
         model = TimeLog
-        fields=(
-                
+        fields=[
+                'id',
+                'assign_to',
                 'task_name',
                 'start_date',
                 'end_date',
-                'assign_to',
                 'status',
                 'activity',
-                'comment',
                 'created_at',
                 'updated_at',
-
-                )
+                ]
+        read_only_fields = ['id', "created_at", "updated_at"]
+        extra_kwargs = {
+            'status': {'required': False},
+            'task_name': {'required': False},
+            'assign_to': {'required': False},
+        }
 
 class CommentFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentFile
-        fields = ('id','comment','file')
+        fields = ['id','comment','file']
 class CommentSerializer(WritableNestedModelSerializer):
-    commentfile = CommentFileSerializer(many=True,required=False)
+    commentfile = CommentFileSerializer(many=True,source="commentfile_set", required=False)
     class Meta:
 
         model = Comment
-        fields = ( 
+        fields = [
                     'id',
                     'comment',
                     'comment_type',
@@ -76,6 +80,6 @@ class CommentSerializer(WritableNestedModelSerializer):
                     'created_by',
                     'created_at',
                     'updated_at',
-                )
+        ]
 
 

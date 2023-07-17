@@ -76,13 +76,19 @@ class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
 
         queryset = self.queryset
         if 'id' not in self.kwargs:
-            queryset  = LeaveForm.objects.filter(applicant__organization__id = self.request.user.organization.id)
-
+            queryset  = TimeLog.objects.filter(assign_to__id=self.request.user.id)
         return queryset 
 
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
-
+        data = request.data
+        # print("data",self.request.user)
+        data['assign_to']=self.request.user.id
+        serializer = TimeLogSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save() 
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
 
