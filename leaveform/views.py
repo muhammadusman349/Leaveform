@@ -80,10 +80,10 @@ class TimeLogView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIVi
         return queryset 
 
     def post(self, request, *args, **kwargs):
-        data = request.data
         # print("data",self.request.user)
-        data['assign_to']=self.request.user.id
-        serializer = TimeLogSerializer(data=data)
+
+        request.data['assign_to']=self.request.user.id
+        serializer = TimeLogSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save() 
             return Response(serializer.data,status=status.HTTP_200_OK)
