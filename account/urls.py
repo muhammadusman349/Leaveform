@@ -24,5 +24,5 @@ urlpatterns = [
     path('forget/password/',            ForgetPasswordView.as_view(),           name='forget-password'),
     path('reset/password/',             ResetPasswordView.as_view(),            name='reset-password'),
     path('department/',                 DepartmentView.as_view(),               name='department-listcreate-view'),
-    path('<int:id>/',                   DepartmentView.as_view(),               name='department-detail-view'),
+    path('department/<int:id>/',                   DepartmentView.as_view(),               name='department-detail-view'),
 ]

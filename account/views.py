@@ -13,11 +13,12 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import permissions
 from django.shortcuts import render
 from .models import Department,User
-
+from .filters import UserFilter,DepartmentFilter
 
 class UserView(generics.ListAPIView):
     permission_classes      = [permissions.IsAuthenticated]
     serializer_class        = UserListSerializer
+    filterset_class         = UserFilter
     queryset                = User.objects.all()
     lookup_field            = 'id'
   
@@ -119,6 +120,7 @@ class ResetPasswordView(generics.GenericAPIView):
 class DepartmentView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = DepartmentSerializer
+    filterset_class  = DepartmentFilter
     queryset = Department.objects.all()
     lookup_field = 'id'
 

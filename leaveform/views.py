@@ -3,12 +3,20 @@ from rest_framework.response import Response
 from .models import LeaveForm ,TimeLog,Comment
 from .serializers import LeaveFormSerializer ,TimeLogSerializer,CommentSerializer
 from rest_framework import generics, permissions, status
+from rest_framework.filters import SearchFilter
+from rest_framework.filters import OrderingFilter
+from .filters import LeaveFormFilter
 # Create your views here.
 
 
 class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class   = LeaveFormSerializer
+    filterset_class   = LeaveFormFilter
+    # filter_backends    = [SearchFilter]
+    # search_fields      =['leave_type','type_of_request']
+    # filter_backends = [OrderingFilter]
+    # ordering_fields=['id',"reason","start_date","end_date"]
     queryset           = LeaveForm.objects.all()
     lookup_field       = 'id'
     
