@@ -39,12 +39,12 @@ class Organization(models.Model):
 class User(AbstractBaseUser):
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
-    employee_id = models.IntegerField(blank=True, null=True)
+    employee_id = models.IntegerField(unique=True,blank=True, null=True)
     date_of_joining = models.DateField(null=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     phone = models.CharField(max_length=100,null=True)
-    department = models.ForeignKey('account.Department',on_delete=models.CASCADE,blank=True,null=True)
-    organization = models.ForeignKey(Organization,on_delete=models.CASCADE,blank=True,null=True)
+    department = models.ForeignKey('account.Department',on_delete=models.SET_NULL,blank=True,null=True)
+    organization = models.ForeignKey(Organization,on_delete=models.SET_NULL,blank=True,null=True)
     is_approved = models.BooleanField(default= False)
     is_superuser = models.BooleanField(default= False)
     is_verified = models.BooleanField(default= False)
@@ -76,7 +76,7 @@ class OtpVerify(models.Model):
     
 class Department(models.Model):
     
-    manager = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True,related_name='managed')
+    manager = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True,related_name='managed')
     name = models.CharField(max_length=120)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

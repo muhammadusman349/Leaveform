@@ -50,7 +50,7 @@ class TimeLogActivity(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     comment_type = models.CharField(max_length=120,choices=COMMENT_TYPE_CHOICE)
-    comment_type_id = models.IntegerField()
+    comment_type_id = models.IntegerField(unique= True)
     edited = models.BooleanField(default=False)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,7 +60,7 @@ class Comment(models.Model):
         return str(self.created_by)
     
 class CommentFile(models.Model):
-    comment = models.ForeignKey(Comment,on_delete=models.CASCADE,null=True,blank=True)
+    comment = models.ForeignKey(Comment,on_delete=models.SET_NULL,null=True,blank=True)
     file    = models.FileField(upload_to='Comment_File/',null=True,blank=True)
 
     def __str__(self):
