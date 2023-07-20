@@ -9,6 +9,10 @@ import time
 from datetime import datetime
 from django.utils import timezone
 
+
+#static method cannot access the class or instance data,they cannot modify the class state.
+#static method cannot change the behavior or affect a class
+#static method does not depend on the state of an instance or class
 class generateKey:
     @staticmethod
     def return_value(user_obj):

@@ -118,23 +118,74 @@
 
 
 
-class Animal(object):
-    def __init__(self,name,species,kingdom):
-        self.name = name
-        self.species = species
-        self.kingdom = kingdom
+# class Animal(object):
+#     def __init__(self,name,species,kingdom):
+#         self.name = name
+#         self.species = species
+#         self.kingdom = kingdom
 
     # @staticmethod
-    def information(kingdom):
-        if kingdom == 'Animalia':
-            info = ['lion','pantheria','Animalia']
-        else:
-            info = ['lion']
-        return info
+#     def information(kingdom):
+#         if kingdom == 'Animalia':
+#             info = ['lion','pantheria','Animalia']
+#         else:
+#             info = ['lion']
+#         return info
     
-    def call(self):
-        info = self.information(self.kingdom)
-        for i in info:
-            print('information collected',i)
-anm = Animal("Lion","Pantheria","Animalia")
-anm.call()
+#     def call(self):
+#         info = self.information(self.kingdom)
+#         for i in info:
+#             print('information collected',i)
+# anm = Animal("Lion","Pantheria","Animalia")
+# anm.call()
+
+
+
+# class Mobile:
+#     @staticmethod
+#     def show_model(m,p):
+#         model = m
+#         price = p
+
+#         print("Model:",model,"Price:",price)
+# realme = Mobile()
+# Mobile.show_model("VIVO Y19",28000)
+
+# class Mobile:
+#     fp = 'Yes'
+
+#     @staticmethod
+#     def show_model():
+#         print("FingerPrint:",Mobile.fp)
+# realname = Mobile
+# Mobile.show_model()
+
+
+# class Bank:
+#     bank_name = 'BOP'
+#     rate_of_interest=12.25
+#     @staticmethod
+#     def simple_interest(prin,n):
+#         si = (prin*n*Bank.rate_of_interest)/100
+#         print("Real interest:",si)
+
+# prin = float(input("Enter principle amount:"))
+# n = int(input("enter number of years:"))
+# Bank.simple_interest(prin,n)
+
+# class Math:
+#     def __init__(self,num):
+#         self.num = num
+#     def addtonum(self,n):
+#         self.num = self.num + n
+    
+#     @staticmethod
+#     def add(a,b):
+#         return a+b
+    
+# a = Math(5)
+# print(a.num)
+# a.addtonum(6)
+# print(a.num)
+
+
