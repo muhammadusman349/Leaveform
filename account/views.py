@@ -27,6 +27,21 @@ class UserView(generics.ListAPIView):
             return self.retrieve(request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        queryset = self.queryset
+        if 'id' not in self.kwargs:
+            # queryset= User.objects.only("date_of_joining")
+            # queryset = User.objects.defer("department","date_of_joining")
+            # queryset =User.objects.values_list("first_name","last_name","email",named=True)
+            # queryset =User.objects.values("id","first_name","last_name","email")
+            # queryset = User.objects.exclude(id=self.request.user.id)
+            # queryset = User.objects.alias()
+            # queryset = User.objects.check("first_name")
+            queryset = User.objects.select_related('organization').all()
+            # queryset = User.objects.prefetch_related('department')
+            # queryset= User.objects.filter(organization__id=self.request.user.organization.id).exclude(id=self.request.user.id)
+        return queryset
+    
 class UserApproveView(generics.GenericAPIView):
     permission_classes      = [permissions.IsAuthenticated]  
     def post(self,request,*args,**kwargs):
