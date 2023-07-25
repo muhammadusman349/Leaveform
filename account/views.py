@@ -14,7 +14,6 @@ from rest_framework import permissions
 from django.shortcuts import render
 from .models import Department,User
 from .filters import UserFilter,DepartmentFilter
-
 class UserView(generics.ListAPIView):
     permission_classes      = [permissions.IsAuthenticated]
     serializer_class        = UserListSerializer
@@ -30,18 +29,24 @@ class UserView(generics.ListAPIView):
     def get_queryset(self):
         queryset = self.queryset
         if 'id' not in self.kwargs:
-            # queryset= User.objects.only("date_of_joining")
+            # queryset = User.objects.only("date_of_joining")
             # queryset = User.objects.defer("department","date_of_joining")
-            # queryset =User.objects.values_list("first_name","last_name","email",named=True)
-            # queryset =User.objects.values("id","first_name","last_name","email")
+            # queryset = User.objects.values_list("first_name","last_name","email",named=True)
+            # queryset = User.objects.exclude(id=3)
+            # queryset = User.objects.values("id","first_name","last_name","email")
             # queryset = User.objects.exclude(id=self.request.user.id)
             # queryset = User.objects.alias()
             # queryset = User.objects.check("first_name")
-            queryset = User.objects.select_related('organization').all()
+            # queryset = User.objects.select_related('department')[:3]
+            # queryset = User.objects.prefetch_related("department")[:2]
+            # queryset = User.objects.distinct("first_name")
+            # queryset = User.objects.select_related("organization").prefetch_related("department")
             # queryset = User.objects.prefetch_related('department')
-            # queryset= User.objects.filter(organization__id=self.request.user.organization.id).exclude(id=self.request.user.id)
+            # queryset = User.objects.filter(organization__id=self.request.user.organization.id).exclude(id=self.request.user.id)
+            # queryset = User.objects.aggregate(Sum('employee_id'))
+            queryset = User.objects.aggregate("")
         return queryset
-    
+    # "😃", "👏" ,"👇" #
 class UserApproveView(generics.GenericAPIView):
     permission_classes      = [permissions.IsAuthenticated]  
     def post(self,request,*args,**kwargs):
@@ -51,9 +56,9 @@ class UserApproveView(generics.GenericAPIView):
             user.is_verified=True
             user.is_approved = True
             user.save()
-            return Response({"Message":"User is approve"},status=status.HTTP_200_OK)
+            return Response({"Message":"User is approve 😃"},status=status.HTTP_200_OK)
         except User.DoesNotExist:
-            return Response({"Error":"User is Not Exist"},status=status.HTTP_400_BAD_REQUEST)    
+            return Response({"Error":"User is Not Exist 👏"},status=status.HTTP_400_BAD_REQUEST)    
 
 class RegistrationApi(generics.GenericAPIView):
     permission_classes      = [permissions.IsAuthenticated]
@@ -102,7 +107,7 @@ class ChangePasswordView(generics.GenericAPIView):
                                            'user': self.request.user})
         if serializer.is_valid():
             serializer.save()
-            return Response({'password': ' password changed successfully'}, status=status.HTTP_200_OK)
+            return Response({'password': ' password changed successfully 😃'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -114,7 +119,7 @@ class ForgetPasswordView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            return Response({'opt': 'successfully send OTP '}, status=status.HTTP_200_OK)
+            return Response({'opt': 'successfully send OTP 😃'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -126,7 +131,7 @@ class ResetPasswordView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            return Response({'password': 'successfully set New Password'}, status=status.HTTP_200_OK)
+            return Response({'password': 'successfully set New Password 😃'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

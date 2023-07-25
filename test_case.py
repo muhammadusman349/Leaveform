@@ -1,3 +1,35 @@
+import os
+import django
+
+# os.environ.setdefault('DJANGO_SETTING_MODULE', 'conf.settings') 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conf.settings')
+django.setup()
+
+from account.models import *
+from leaveform.models import *
+from django.db.models import *
+queryset = LeaveForm.objects.filter(applicant = 1)
+# queryset  = User.objects.filter(email__startstwith= "a")
+# queryset = User.objects.all()
+# queryset = User.objects.only(Count("employee_id"))
+# queryset = User.objects.defer("department","date_of_joining")
+# queryset = User.objects.values_list("first_name","last_name","email",flat=True)
+# queryset = User.objects.exclude(id=3)
+# queryset = User.objects.values("id","first_name","last_name","email")
+# queryset = User.objects.exclude(id=1)
+# queryset   = User.objects.check()
+# queryset = User.objects.select_related('department')[:3]
+# queryset = User.objects.prefetch_related("department")[:2]
+# queryset = User.objects.distinct("first_name")
+# queryset = User.objects.select_related("organization").prefetch_related("department")
+# queryset = User.objects.prefetch_related('department')
+# queryset = User.objects.filter(organization__id=self.request.user.organization.id).exclude(id=self.request.user.id)
+print("queryset...",queryset)
+
+
+
+
+
 # from datetime import date
 # class Person:
 #     def __init__(self, name, age):

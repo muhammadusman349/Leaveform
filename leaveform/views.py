@@ -33,6 +33,9 @@ class LeaveFormView(generics.ListCreateAPIView,generics.RetrieveUpdateDestroyAPI
     def get_queryset(self):
         queryset = self.queryset
         if 'id' not in self.kwargs:
+            # queryset  = LeaveForm.objects.select_related("approve_by")
+            # queryset = LeaveForm.objects.prefetch_related("applicant")[:2]
+            # queryset = LeaveForm.objects.distinct("applicant")
             queryset  = LeaveForm.objects.filter(applicant__id = self.request.user.id)
         return queryset 
         
