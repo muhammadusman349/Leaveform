@@ -1,30 +1,50 @@
 import os
 import django
 
-# os.environ.setdefault('DJANGO_SETTING_MODULE', 'conf.settings') 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conf.settings')
 django.setup()
 
 from account.models import *
 from leaveform.models import *
 from django.db.models import *
-queryset = LeaveForm.objects.filter(applicant = 1)
-# queryset  = User.objects.filter(email__startstwith= "a")
+
+# queryset = User.objects.filter(department__name__in=['IT','SE','BS-SE','BS-CS'])
+# queryset = User.objects.filter(last_name="usman")
+# queryset = User.objects.exclude(department__name  = 'IT')
+# queryset = User.objects.filter(last_name__icontains = "man")
+# queryset = User.objects.filter(first_name__startswith = 'a')
+# queryset = User.objects.filter(email__endswith = ".com")
 # queryset = User.objects.all()
-# queryset = User.objects.only(Count("employee_id"))
+# queryset = User.objects.only("employee_id")
 # queryset = User.objects.defer("department","date_of_joining")
 # queryset = User.objects.values_list("first_name","last_name","email",flat=True)
 # queryset = User.objects.exclude(id=3)
 # queryset = User.objects.values("id","first_name","last_name","email")
-# queryset = User.objects.exclude(id=1)
-# queryset   = User.objects.check()
 # queryset = User.objects.select_related('department')[:3]
 # queryset = User.objects.prefetch_related("department")[:2]
 # queryset = User.objects.distinct("first_name")
 # queryset = User.objects.select_related("organization").prefetch_related("department")
 # queryset = User.objects.prefetch_related('department')
 # queryset = User.objects.filter(organization__id=self.request.user.organization.id).exclude(id=self.request.user.id)
-print("queryset...",queryset)
+# print(queryset.count())
+# print(queryset.exists())
+# queryset = User.objects.values_list('id','last_name',named=True)
+# queryset = User.objects.values("first_name","last_name")
+# queryset = User.objects.values_list("email","date_of_joining")
+# queryset = User.objects.values("id","department","organization")
+# queryset = User.objects.all()[3:10]
+
+# queryset = User.objects.exclude(last_name__endswith ='i')
+# queryset = Department.objects.all().count()
+# leave = Organization.objects.all().count()
+# queryset = User.objects.filter(first_name__startswith='m') & User.objects.filter(last_name__startswith='U')
+queryset = User.objects.filter(Q(first_name__startswith='m')& Q(last_name__startswith='g'))
+print(' >>>>>USER NAME<<<<<',queryset)
+# print(queryset,leave)
+# queryset1 = TimeLog.objects.all().count()
+
+# print('Logtime.....',queryset1)
+
 
 
 
