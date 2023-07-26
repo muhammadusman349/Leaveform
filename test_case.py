@@ -8,6 +8,16 @@ from account.models import *
 from leaveform.models import *
 from django.db.models import *
 
+# queryset = User.objects.filter(department__name__in=['IT','SE','BS-CS'])
+queryset1 = User.objects.filter(last_name__iexact='Usman')
+print(' >>>>> Queryset 1 <<<<<',queryset1)
+
+queryset2 =  Department.objects.filter(manager__email__icontains = "m")
+print("Queryset 2 :",queryset2)
+
+queryset3 = Department.objects.filter(created_at="2023-07-26T09:41:44.904752Z",)
+print("Queryset 3 :",queryset3)
+
 # queryset = User.objects.filter(department__name__in=['IT','SE','BS-SE','BS-CS'])
 # queryset = User.objects.filter(last_name="usman")
 # queryset = User.objects.exclude(department__name  = 'IT')
@@ -38,8 +48,10 @@ from django.db.models import *
 # queryset = Department.objects.all().count()
 # leave = Organization.objects.all().count()
 # queryset = User.objects.filter(first_name__startswith='m') & User.objects.filter(last_name__startswith='U')
-queryset = User.objects.filter(Q(first_name__startswith='m')& Q(last_name__startswith='g'))
-print(' >>>>>USER NAME<<<<<',queryset)
+# queryset = User.objects.filter(Q(first_name__startswith='m')& Q(last_name__startswith='g'))
+# queryset = User.objects.filter(id=1)
+# queryset =User.objects.select_related('department').all()
+
 # print(queryset,leave)
 # queryset1 = TimeLog.objects.all().count()
 
