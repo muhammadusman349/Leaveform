@@ -8,15 +8,67 @@ from account.models import *
 from leaveform.models import *
 from django.db.models import *
 
-# queryset = User.objects.filter(department__name__in=['IT','SE','BS-CS'])
 queryset1 = User.objects.filter(last_name__iexact='Usman')
-print(' >>>>> Queryset 1 <<<<<',queryset1)
+print(' Queryset 1 👍:',queryset1)
 
 queryset2 =  Department.objects.filter(manager__email__icontains = "m")
-print("Queryset 2 :",queryset2)
+print("Queryset 2  👍:",queryset2)
 
 queryset3 = Department.objects.filter(created_at="2023-07-26T09:41:44.904752Z",)
-print("Queryset 3 :",queryset3)
+print("Queryset 3  👍:",queryset3)
+
+queryset4 = Department.objects.exclude(name = 'Front-End')
+print('Queryset 4  👍:',queryset4)
+
+queryset5 = User.objects.filter(department__name__in =  ['IT','BS-CS'])
+print('Queryset 5  👍:',queryset5)
+
+queryset6 = User.objects.exclude(department__name = 'IT')
+print('Queryset 6  👍:',queryset6)
+
+queryset7 = User.objects.filter(email__endswith = ".com")
+print("Queryst 7   👍:",queryset7)
+
+queryset8 = User.objects.exclude(organization__address="	Rawalpindi")
+print('Queryset 8  👍:',queryset8)
+
+queryset9 = User.objects.values_list("first_name","last_name","email")
+print('Queryset 9  👍:',queryset9)
+
+queryset10 = Department.objects.filter(manager__first_name='m')
+print('Queryset 10 👍:',queryset10)
+
+queryset11 = LeaveForm.objects.filter( end_date='2023-07-26')
+print('Queryset 11 👍:',queryset11)
+
+queryset12 = LeaveForm.objects.exclude(reason = 'Sick')
+print('Queryset 12 👍: ',queryset12)
+
+queryset13 =LeaveForm.objects.values("applicant","reason","leave_detail")
+print("Queryset 13 👍:",queryset13)
+
+queryset14 = LeaveForm.objects.filter(approve_by__first_name='m')
+print("Queryset 14 👍:",queryset14)
+
+queryset15 = User.objects.values("email")
+print("Queryset 15 👍:",queryset15)
+
+queryset16 = Department.objects.only("created_at")
+print("Queryset 16 👍:",queryset16)
+
+queryset17 = User.objects.filter(is_verified=False)
+print('Queryset 17 👍:',queryset17)
+
+queryset18 = LeaveForm.objects.values_list()
+print("Queryset 18 👍:",queryset18)
+
+queryset19 = LeaveForm.objects.values("leave_detail")
+print("Queryset 19 👍:",queryset19)
+
+queryset20 = LeaveForm.objects.filter()
+print("Queryset 20 👍:",queryset20)
+
+
 
 # queryset = User.objects.filter(department__name__in=['IT','SE','BS-SE','BS-CS'])
 # queryset = User.objects.filter(last_name="usman")
@@ -58,198 +110,5 @@ print("Queryset 3 :",queryset3)
 # print('Logtime.....',queryset1)
 
 
-
-
-
-
-# from datetime import date
-# class Person:
-#     def __init__(self, name, age):
-#         self.name = name
-#         self.age = age
- 
-    # a class method to create a Person object by birth year.
-    # @classmethod
-    # def fromBirthYear(cls, name, year):
-    #     return cls(name, date.today().year - year)
- 
-    # a static method to check if a Person is adult or not.
-    # @staticmethod
-    # def isAdult(age):
-    #     return age > 18
- 
- 
-# person1 = Person('mayank', 21)
-# person2 = Person.fromBirthYear('mayank', 1996)
- 
-# print(person1.age)
-# print(person2.age)
- 
-# print the result
-# print(Person.isAdult(22))
-
-
-
-
-# class Dates:
-#     def __init__(self,date):
-#         self.date = date
-
-    # def getDate(self):
-    #     return self.date
-    
-#     @staticmethod
-#     def toDashDate(date):
-#         return date.replace("/","+")
-
-# date = Dates("15-12-2016")
-# dateFromDB = "15/12/2016"
-# dateWithDash = Dates.toDashDate(dateFromDB)
-# print(dateWithDash)
-# if(date.getDate()==dateWithDash):
-#     print("Equal")
-# else:
-#     print("Unequal")
-
-
-
-
-# class Test :
-#     @staticmethod
-#     def static_method_1():
-#         print('static method 1')
-
-#     @staticmethod
-#     def static_method_2() :
-#         Test.static_method_1()
-
-#     @classmethod
-#     def class_method_1(cls) :
-#         cls.static_method_2()
-
-# call class method
-# Test.class_method_1()
-
-# class Dog():
-#     count = 0
-#     dog = []
-
-#     def __init__(self,name):
-#         self.name = name
-#         Dog.count += 1
-#         Dog.dog.append(name)
-    
-#     def bark(self,n):
-#         print("{} say: {}".format(self.name,"woof!" * n))
-#     def rollCall(n):
-#         print("There are {}dogs.".format(Dog.count))
-#         if n >= len(Dog.dog)or n<0:
-#             print("they are:")
-#             for dog in Dog.dog:
-#                 print("{}".format(dog))
-#         else:
-#             print("The dog indexed at {} is {}.".format(n,Dog.dog[n]))
-
-# fido = Dog("Fido")
-# fido.bark(3)
-# Dog.rollCall(-1)
-# rex = Dog("rex")
-# Dog.rollCall(0)
-
-# class Employee(object):
-
-#     def __init__(self,name,salary,project_name):
-#         self.name = name
-#         self.salary = salary
-#         self.project_name = project_name
-    
-#     @staticmethod
-#     def gather_requirement(project_name):
-#         if project_name == 'ABC Project':
-#             requirement = ["task_1","task_2","task_3"]
-#         else:
-#             requirement = ['task_1']
-#         return requirement
-    
-#     def work(self):
-#         requirement = self.gather_requirement(self.project_name)
-#         for task in requirement:
-#             print("completed",task)
-    
-# emp = Employee("Ali",12999,"ABC Project")
-# emp.work()
-
-
-
-
-# class Animal(object):
-#     def __init__(self,name,species,kingdom):
-#         self.name = name
-#         self.species = species
-#         self.kingdom = kingdom
-
-    # @staticmethod
-#     def information(kingdom):
-#         if kingdom == 'Animalia':
-#             info = ['lion','pantheria','Animalia']
-#         else:
-#             info = ['lion']
-#         return info
-    
-#     def call(self):
-#         info = self.information(self.kingdom)
-#         for i in info:
-#             print('information collected',i)
-# anm = Animal("Lion","Pantheria","Animalia")
-# anm.call()
-
-
-
-# class Mobile:
-#     @staticmethod
-#     def show_model(m,p):
-#         model = m
-#         price = p
-
-#         print("Model:",model,"Price:",price)
-# realme = Mobile()
-# Mobile.show_model("VIVO Y19",28000)
-
-# class Mobile:
-#     fp = 'Yes'
-
-#     @staticmethod
-#     def show_model():
-#         print("FingerPrint:",Mobile.fp)
-# realname = Mobile
-# Mobile.show_model()
-
-
-# class Bank:
-#     bank_name = 'BOP'
-#     rate_of_interest=12.25
-#     @staticmethod
-#     def simple_interest(prin,n):
-#         si = (prin*n*Bank.rate_of_interest)/100
-#         print("Real interest:",si)
-
-# prin = float(input("Enter principle amount:"))
-# n = int(input("enter number of years:"))
-# Bank.simple_interest(prin,n)
-
-# class Math:
-#     def __init__(self,num):
-#         self.num = num
-#     def addtonum(self,n):
-#         self.num = self.num + n
-    
-#     @staticmethod
-#     def add(a,b):
-#         return a+b
-    
-# a = Math(5)
-# print(a.num)
-# a.addtonum(6)
-# print(a.num)
 
 

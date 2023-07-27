@@ -106,6 +106,7 @@ SIMPLE_JWT = {
 }
 
 ROOT_URLCONF = 'conf.urls'
+ALLOWED_HOSTS = ['192.168.18.170', '127.0.0.1', '0.0.0.0', '192.168.18.1']
 
 TEMPLATES = [
     {
