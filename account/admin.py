@@ -6,7 +6,7 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ('id',)
     search_fields = ("id","email")
     list_filter=["date_of_joining","department","organization"]
-    list_display = ("id", 'email', 'first_name', 'last_name', 'department', 'organization','date_of_joining')
+    list_display = ("id", 'email', 'first_name', 'last_name', "is_verified","is_approved",'department', 'organization','date_of_joining')
 class DepartmentAdmin(admin.ModelAdmin):
     ordering = ('id',)
     list_display= ("id","name","manager")
