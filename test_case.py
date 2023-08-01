@@ -53,13 +53,25 @@ from django.db.models import *
 # queryset15 = User.objects.values("email")
 # print("Queryset 15 👍:",queryset15)
 
-queryset16 = Department.objects.defer("name")
-for q in queryset16:
-    print("Queryset 16 👍:",q.manager,q.created_at)
+# queryset16 = Department.objects.defer("name")
+# for q in queryset16:
+#     print("Queryset 16 👍:",q.manager,q.created_at)
+
+# queryset= LeaveForm.objects.defer("status")
+# for i in queryset:
+#     print("defer",i.reason)
+
+queryset = TimeLog.objects.filter(assign_to__first_name="Guf")
+for i in queryset:
+    print("queryset",i.assign_to.first_name)
+
+# user = User.objects.filter(is_verified = True)
+# for i in user:
+#     print("verify:",i)
 
 # defer = User.objects.defer("first_name")
 # for i in defer:
-#     print("defer",i)
+#     print("defer",i.email)
     
 # leave = LeaveForm.objects.defer("status","reason")
 # print(leave)

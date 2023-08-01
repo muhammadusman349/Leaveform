@@ -12,19 +12,24 @@ class TimeLogAdmin(admin.ModelAdmin):
     ordering = ["id"]
     list_display = ["id","task_name","status","assign_to","start_date"]
     list_filter = ["status","assign_to"]
+
+class TimeLogActivityAdmin(admin.ModelAdmin):
+    ordering = ["id"]
+    list_display=("id","name","timelog","start_time","end_time")
+
 class CommentAdmin(admin.ModelAdmin):
     ordering = ["id"]
     list_display=("id","comment_type","comment_type_id","edited","created_by")
     list_filter=["comment_type_id","created_by"]
-    
-class TimeLogActivityAdmin(admin.ModelAdmin):
+
+class CommentFileAdmin(admin.ModelAdmin):
     ordering = ["id"]
-    list_display=("id","name","timelog","start_time","end_time")
+    list_display = ("id","comment","file")    
 
 
 
 admin.site.register(LeaveForm,LeaveFormAdmin)
 admin.site.register(TimeLog,TimeLogAdmin)
 admin.site.register(Comment,CommentAdmin)
-admin.site.register(CommentFile)
+admin.site.register(CommentFile,CommentFileAdmin)
 admin.site.register(TimeLogActivity,TimeLogActivityAdmin)

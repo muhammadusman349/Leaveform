@@ -60,7 +60,7 @@ class Comment(models.Model):
         return str(self.created_by)
     
 class CommentFile(models.Model):
-    comment = models.ForeignKey(Comment,on_delete=models.SET_NULL,null=True,blank=True)
+    comment = models.ForeignKey(Comment,on_delete=models.SET_NULL,null=True,blank=True,verbose_name="Email")
     file    = models.FileField(upload_to='Comment_File/',null=True,blank=True)
 
     def __str__(self):

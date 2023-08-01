@@ -45,6 +45,7 @@ class User(AbstractBaseUser):
     phone = models.CharField(max_length=100,null=True)
     department = models.ForeignKey('account.Department',on_delete=models.SET_NULL,blank=True,null=True)
     organization = models.ForeignKey(Organization,on_delete=models.SET_NULL,blank=True,null=True)
+    person = models.ForeignKey('self',on_delete=models.SET_NULL,null=True,blank=True)
     is_approved = models.BooleanField(default= False)
     is_superuser = models.BooleanField(default= False)
     is_verified = models.BooleanField(default= False)
