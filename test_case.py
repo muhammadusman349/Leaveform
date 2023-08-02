@@ -35,35 +35,87 @@ from django.db.models import *
 # queryset9 = User.objects.values_list("first_name","last_name","email")
 # print('Queryset 9  👍:',queryset9)
 
-# queryset10 = Department.objects.filter(manager__first_name='m')
+# queryset10 = Department.objects.filter(manager__first_name='M')
 # print('Queryset 10 👍:',queryset10)
 
 # queryset11 = LeaveForm.objects.filter( end_date='2023-07-26')
 # print('Queryset 11 👍:',queryset11)
 
 # queryset12 = LeaveForm.objects.exclude(reason = 'Sick')
-# print('Queryset 12 👍: ',queryset12)
+# print('Queryset 12 👍: ',queryset12.count())
 
 # queryset13 =LeaveForm.objects.values("applicant","reason","leave_detail")
 # print("Queryset 13 👍:",queryset13)
 
-# queryset14 = LeaveForm.objects.filter(approve_by__first_name='m')
+# queryset14 = LeaveForm.objects.filter(approve_by__first_name='M')
 # print("Queryset 14 👍:",queryset14)
 
 # queryset15 = User.objects.values("email")
 # print("Queryset 15 👍:",queryset15)
 
+# ar = User.objects.filter(first_name="M")
+# print(ar.count())
+
+# Leave = LeaveForm.objects.only('reason')
+# for i in Leave:
+#     print("reason only",i.reason)
+
 # queryset16 = Department.objects.defer("name")
 # for q in queryset16:
-#     print("Queryset 16 👍:",q.manager,q.created_at)
+    # print("Queryset 16 👍:",q.manager,q.created_at)
 
 # queryset= LeaveForm.objects.defer("status")
 # for i in queryset:
-#     print("defer",i.reason)
+    # print("defer",i.type_of_request)
 
-queryset = TimeLog.objects.filter(assign_to__first_name="Guf")
-for i in queryset:
-    print("queryset",i.assign_to.first_name)
+# queryset = TimeLog.objects.filter(assign_to__first_name="Guf")
+# for i in queryset:
+    # print("queryset",i.assign_to.first_name)
+
+# department = Department.objects.all().values("name")
+# for j in department:
+    # print("department",j)
+
+
+q= User.objects.aggregate(Min('employee_id'))
+print(q)
+
+anno = User.objects.values('first_name').annotate(Count('id'))
+print(anno)
+
+dep = User.objects.values('department').annotate(Count('department'))
+print(dep)
+
+queryset1 = TimeLog.objects.filter(assign_to__first_name="Guf")
+for i in queryset1:
+    print("queryset",i.assign_to.last_name)
+
+querset = LeaveForm.objects.filter(leave_type='Leave')
+print(querset)
+
+annotatedOutput = User.objects.aggregate(Count('first_name'))
+# for f in annotatedOutput:
+print(annotatedOutput)
+
+another = User.objects.filter(first_name__startswith='M').count() #.aggregate(Avg("id"))
+print(another)
+
+
+
+
+# distinct  = LeaveForm.objects.distinct("reason")
+
+# print("distinct",distinct)
+
+# reason = LeaveForm.objects.values_list('reason',flat=True) #.distinct()
+# print(reason)
+
+
+
+# queryset= LeaveForm.objects.all().values('reason') #.distinct()
+# print(queryset)
+
+# queryset = LeaveForm.objects.all().
 
 # user = User.objects.filter(is_verified = True)
 # for i in user:
@@ -131,7 +183,3 @@ for i in queryset:
 # queryset1 = TimeLog.objects.all().count()
 
 # print('Logtime.....',queryset1)
-
-
-
-

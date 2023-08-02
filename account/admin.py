@@ -7,7 +7,7 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ("id","email")
     list_filter=["date_of_joining","department","organization"]
     raw_id_fields = ("person",)
-    list_display = ("id",'first_name', 'last_name','email','department', 'organization', "is_verified","is_approved",'date_of_joining')
+    list_display = ("id",'first_name', 'last_name','email','department', 'organization','is_active', "is_verified","is_approved",'date_of_joining')
 class DepartmentAdmin(admin.ModelAdmin):
     ordering = ('id',)
     list_display= ("id","name","manager")
