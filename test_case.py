@@ -8,6 +8,65 @@ from account.models import *
 from leaveform.models import *
 from django.db.models import *
 
+# try:
+#     obj = User.objects.get(first_name='j',last_name='Usman')
+# except User.DoesNotExist:
+    # print('error:')
+    # obj = User(first_name='M',last_name='Khan',email='mkhan@hotmail.in')
+    # obj.save()
+
+# Obj = User.objects.all()
+# for i in Obj:
+#     if i
+    
+# user,created = User.objects.get_or_create(first_name='Ali',
+#                                           last_name='Hamza',
+#                                           email="alihamza@gmail.com",
+#                                           employee_id=6,
+#                                           password='alihamza123',
+                                        #   date_of_joining = 2023-8-3,
+#                                           department = {id=1},
+#                                           organizationid = 1,
+#                                           is_approved= True
+#                                           )
+# print(user)
+
+# leave, created = LeaveForm.objects.get_or_create( applicant__id = "3",
+#                                                  reason = 'Sick',
+#                                                  leave_type= 'Leave',
+#                                                  leave_detail = 'leave from home',
+#                                                  type_of_request = 'Full Day',
+#                                                  status = 'Approve',
+#                                                  approve_by__id = 1,
+#                                                  start_date = "2023-8-18",
+#                                                  end_date = "2023-8-28"
+     
+
+
+
+# )
+
+leave, created = LeaveForm.objects.get_or_create(
+    # applicant__id=,
+    defaults={
+        'reason': "Sick",
+        'leave_type': "Leave",
+        'leave_detail':'leave from home',
+        'type_of_request':'Full Day',
+        'status':'Approve',
+        # 'approve_by' : 1,
+        'start_date' : "2023-8-18",
+        'end_date' : "2023-8-28"
+    }
+)
+
+
+print (leave,created)
+# user = User.objects.get(id=41).delete()
+# user.delete()
+
+
+
 # queryset1 = User.objects.filter(last_name__iexact='Usman')
 # print(' Queryset 1 👍:',queryset1)
 
@@ -77,31 +136,31 @@ from django.db.models import *
     # print("department",j)
 
 
-q= User.objects.aggregate(Min('employee_id'))
-print(q)
+# q= User.objects.aggregate(Min('employee_id'))
+# print(q)
 
-anno = User.objects.values('first_name').annotate(Count('id'))
-print(anno)
+# anno = User.objects.values('first_name').annotate(Count('id'))
+# print(anno)
 
-dep = User.objects.values('department').annotate(Count('department'))
-print(dep)
+# dep = User.objects.values('department').annotate(Count('department'))
+# print(dep)
 
-queryset1 = TimeLog.objects.filter(assign_to__first_name="Guf")
-for i in queryset1:
-    print("queryset",i.assign_to.last_name)
+# queryset1 = TimeLog.objects.filter(assign_to__first_name="Guf")
+# for i in queryset1:
+#     print("queryset",i.assign_to.last_name)
 
-querset = LeaveForm.objects.filter(leave_type='Leave')
-print(querset)
+# querset = LeaveForm.objects.filter(leave_type='Leave')
+# print(querset)
 
-annotatedOutput = User.objects.aggregate(Count('first_name'))
+# annotatedOutput = User.objects.aggregate(Count('first_name'))
 # for f in annotatedOutput:
-print(annotatedOutput)
+# print(annotatedOutput)
 
-another = User.objects.filter(first_name__startswith='M').count() #.aggregate(Avg("id"))
-print(another)
+# another = User.objects.filter(first_name__startswith='M').aggregate(Sum("id"))
+# print(another)
 
-
-
+# user = User.objects.aggregate(Min('id'))
+# print(user)
 
 # distinct  = LeaveForm.objects.distinct("reason")
 
