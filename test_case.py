@@ -46,27 +46,47 @@ from django.db.models import *
 
 # )
 
-leave, created = LeaveForm.objects.get_or_create(
-    # applicant__id=,
-    defaults={
-        'reason': "Sick",
-        'leave_type': "Leave",
-        'leave_detail':'leave from home',
-        'type_of_request':'Full Day',
-        'status':'Approve',
-        # 'approve_by' : 1,
-        'start_date' : "2023-8-18",
-        'end_date' : "2023-8-28"
-    }
-)
+# leave, created = LeaveForm.objects.get_or_create(
+#     applicant__id=,
+#     defaults={
+#         'reason': "Sick",
+#         'leave_type': "Leave",
+#         'leave_detail':'leave from home',
+#         'type_of_request':'Full Day',
+#         'status':'Approve',
+#         # 'approve_by' : 1,
+#         'start_date' : "2023-8-18",
+#         'end_date' : "2023-8-28"
+#     }
+# )
+# print (leave,created)
+
+# obj = User.objects.filter(organization__name='Civil').delete()
 
 
-print (leave,created)
+# department = Department.objects.all()
+# print(department)
+
+# user = User.objects.get(id=39)
+# print(user)
+
+user1= User.objects.filter(organization__name= 'epochs')
+for i in user1:
+    print(i.first_name,i.last_name,i.employee_id)
+
+user2 = TimeLog.objects.all()
+for j in user2:
+    print(j.assign_to)
+
+user3= TimeLogActivity.objects.all()
+for k in user3:
+    print(k.name)
+    
+# lsd = TimeLogActivity.objects.get_or_create(name='Work From Home',
+#                                             timelog__id=1
+#                                         )
 # user = User.objects.get(id=41).delete()
 # user.delete()
-
-
-
 # queryset1 = User.objects.filter(last_name__iexact='Usman')
 # print(' Queryset 1 👍:',queryset1)
 
