@@ -4,7 +4,7 @@ from .models import LeaveForm ,TimeLog,Comment,CommentFile,TimeLogActivity
 
 class LeaveFormAdmin(admin.ModelAdmin):
     ordering = ["id"]
-    list_display=("id","leave_type","type_of_request","reason","status","applicant","created_at")
+    list_display=("id","leave_type","type_of_request","reason","status","applicant","approve_by","created_at")
     search_fields = ["applicant__first_name"]
     list_filter = ["leave_type","type_of_request","status","reason"]
 

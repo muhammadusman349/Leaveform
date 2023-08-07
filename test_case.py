@@ -8,7 +8,6 @@ from account.models import *
 from leaveform.models import *
 from django.db.models import *
 
-# try:
 #     obj = User.objects.get(first_name='j',last_name='Usman')
 # except User.DoesNotExist:
     # print('error:')
@@ -70,18 +69,48 @@ from django.db.models import *
 # user = User.objects.get(id=39)
 # print(user)
 
-user1= User.objects.filter(organization__name= 'epochs')
-for i in user1:
-    print(i.first_name,i.last_name,i.employee_id)
+# user1= User.objects.filter(organization__name= 'epochs')
+# for i in user1:
+#     print(i.first_name,i.last_name,i.employee_id)
 
-user2 = TimeLog.objects.all()
-for j in user2:
-    print(j.assign_to)
+# user2 = TimeLog.objects.all()
+# for j in user2:
+#     print(j.assign_to)
 
-user3= TimeLogActivity.objects.all()
-for k in user3:
-    print(k.name)
-    
+# user3= TimeLogActivity.objects.all()
+# for k in user3:
+#     print(k.name)
+
+# obj = User.objects.update_or_create(first_name='M',last_name='Hamza', defaults={'first_name':'M'},)
+
+                            #<<<<<<<<<<<<<< UPDATE WITH QUERY >>>>>>>>>>>>>>#
+
+# update1 = User.objects.filter(first_name='M',last_name='Usman').update(first_name='Muhammad',last_name='Usman')
+
+# update2 = LeaveForm.objects.filter(applicant__email='mali@gmail.com').update(approve_by=1)
+
+# obj = User.objects.filter(first_name='Sheikh',last_name="Ijaz").update(first_name="Waleed",last_name="Rajpoot")
+
+# object= User.objects.filter(first_name='Mhammad')
+# for obj in object:
+#     obj.first_name= 'Muhammad'
+#     obj.save() 
+
+# user_info = User.objects.filter(id=40)
+# if user_info:
+#     user_info.update(first_name='Usman',last_name='Khadim')  # considering update_values as your dictionary containing all the information you want to add or update
+# else:
+#     User.objects.create(first_name='ALi',last_name='malah',email='malah@gmail.com')
+
+def save(self,*args,**kwargs):
+    if self.user:
+        User.objects.filter(first_name='Muhammad').update(first_name='Usman')
+    else:
+        super(User,self).save(*args,**kwargs)
+save()
+
+# try:
+# print(object)
 # lsd = TimeLogActivity.objects.get_or_create(name='Work From Home',
 #                                             timelog__id=1
 #                                         )
@@ -95,7 +124,7 @@ for k in user3:
 
 # queryset3 = Department.objects.filter(created_at="2023-07-26T09:41:44.904752Z",)
 # print("Queryset 3  👍:",queryset3)
-
+# 
 # queryset4 = Department.objects.exclude(name = 'Front-End')
 # print('Queryset 4  👍:',queryset4)
 
