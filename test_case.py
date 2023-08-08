@@ -102,18 +102,36 @@ from django.db.models import *
 # else:
 #     User.objects.create(first_name='ALi',last_name='malah',email='malah@gmail.com')
 
-def save(self,*args,**kwargs):
-    if self.user:
-        User.objects.filter(first_name='Muhammad').update(first_name='Usman')
-    else:
-        super(User,self).save(*args,**kwargs)
-save()
+# us = User.objects.filter(id=23).update(last_name='Ali')
+
+# import pickle
+# qs= User.objects.values_list('id','first_name','last_name','email','employee_id','department__name','organization__name')
+# print(qs)
+# re_qs=User.objects.all()
+# re_qs.query = pickle.loads(pickle.dumps(qs.query))
+# print(re_qs)
+
+# q = User.objects.annotate(Count("id"))
+# print(q)
+
+
+# j=LeaveForm.objects.defer('status')
+# for i in j:
+#   print {
+
+#        'applicant:':i.applicant,
+#         "reason:" : i.reason,
+#         'approve_by:':i.approve_by,
+#         'created_at:':i.created_at,
+#   }
+
+
 
 # try:
-# print(object)
+# print(object) 
 # lsd = TimeLogActivity.objects.get_or_create(name='Work From Home',
-#                                             timelog__id=1
-#                                         )
+#                                              timelog__id=1
+#)
 # user = User.objects.get(id=41).delete()
 # user.delete()
 # queryset1 = User.objects.filter(last_name__iexact='Usman')
@@ -291,3 +309,34 @@ save()
 # queryset1 = TimeLog.objects.all().count()
 
 # print('Logtime.....',queryset1)
+
+
+# [(1, 'Muhammad', 'Usman', 'usman@gmail.com', 1, 'Back-End', 'epochs'), 
+#  (2, 'Guf', 'Oor', 'gufoor4@gmail.com', 2, 'IT', 'epochs'), 
+#  (3, 'Habib', 'Ullah', 'habibullah42@gmail.com', 3, 'IT', 'eventive'), 
+#  (23, 'Muhammad', 'Usman','mali@gmail.com', 23, 'IT', 'epochs'), 
+#  (26, 'Aqeel', 'Ahmed', 'aqeelahmed@gmail.com', 26, 'BS-SE', 'epochs'), 
+#  (36, 'Abdul', 'Qadir', 'aq@gmail.com', 36, 'BS-SE', 'epochs'), 
+#  (37, 'Abdul', 'Satar', 'as@gmail.com', 37, 'BS-SE', 'epochs'), 
+#  (38, 'Abdul', 'Rehman', 'ar@gmail.com', 38, 'IT', 'IT Solution'), 
+#  (39, 'Waleed', 'Rajpoot', 'waleed@gmail.com', None,'Front-End', 'IT Solution')]
+
+
+
+organizations = Organization.objects.all()
+for organization in organizations:
+    users= User.objects.filter(organization__id=organization.id)
+    print(users)
+    for user in users: 
+        user.last_name= user.last_name.replace('abc','')
+        user.save()
+        print(user.last_name)
+        
+    #    user.last_name= user.last_name+ ' abc'
+    #    user.save()
+    #    print(user.last_name)
+        
+     
+    
+
+
