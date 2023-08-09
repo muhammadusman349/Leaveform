@@ -29,16 +29,21 @@ from django.db.models import *
 #                                           is_approved= True
 #                                           )
 # print(user)
-
-# leave, created = LeaveForm.objects.get_or_create( applicant__id = "3",
-#                                                  reason = 'Sick',
-#                                                  leave_type= 'Leave',
-#                                                  leave_detail = 'leave from home',
-#                                                  type_of_request = 'Full Day',
-#                                                  status = 'Approve',
-#                                                  approve_by__id = 1,
-#                                                  start_date = "2023-8-18",
-#                                                  end_date = "2023-8-28"
+userobj = User.objects.get(id=1)
+userobj2 = User.objects.get(id=39)
+# for user in userobj:
+#     print(user.email)
+leave, created = LeaveForm.objects.get_or_create(
+    
+                                                 applicant= userobj2 ,
+                                                 reason = 'Sick',
+                                                 leave_type= 'Leave',
+                                                 leave_detail = 'leave from home',
+                                                 type_of_request = 'Half Day',
+                                                 status = 'Approve',
+                                                 approve_by_id= userobj,
+                                                 start_date = "2023-8-10",
+                                                 end_date = "2023-8-12"    )
      
 
 
@@ -311,32 +316,16 @@ from django.db.models import *
 # print('Logtime.....',queryset1)
 
 
-# [(1, 'Muhammad', 'Usman', 'usman@gmail.com', 1, 'Back-End', 'epochs'), 
-#  (2, 'Guf', 'Oor', 'gufoor4@gmail.com', 2, 'IT', 'epochs'), 
-#  (3, 'Habib', 'Ullah', 'habibullah42@gmail.com', 3, 'IT', 'eventive'), 
-#  (23, 'Muhammad', 'Usman','mali@gmail.com', 23, 'IT', 'epochs'), 
-#  (26, 'Aqeel', 'Ahmed', 'aqeelahmed@gmail.com', 26, 'BS-SE', 'epochs'), 
-#  (36, 'Abdul', 'Qadir', 'aq@gmail.com', 36, 'BS-SE', 'epochs'), 
-#  (37, 'Abdul', 'Satar', 'as@gmail.com', 37, 'BS-SE', 'epochs'), 
-#  (38, 'Abdul', 'Rehman', 'ar@gmail.com', 38, 'IT', 'IT Solution'), 
-#  (39, 'Waleed', 'Rajpoot', 'waleed@gmail.com', None,'Front-End', 'IT Solution')]
 
-
-
-organizations = Organization.objects.all()
-for organization in organizations:
-    users= User.objects.filter(organization__id=organization.id)
-    print(users)
-    for user in users: 
-        user.last_name= user.last_name.replace('abc','')
-        user.save()
-        print(user.last_name)
+# organizations = Organization.objects.all()
+# for organization in organizations:
+#     users= User.objects.filter(organization__id=organization.id)
+#     print(users)
+#     for user in users: 
+#         user.last_name= user.last_name.replace('abc','')
+#         user.save()
+#         print(user.last_name)
         
     #    user.last_name= user.last_name+ ' abc'
     #    user.save()
-    #    print(user.last_name)
-        
-     
-    
-
-
+    #    print(user.last_name) 
