@@ -21,7 +21,33 @@ class LeaveForm(models.Model):
 
     def __str__(self):
         return (self.status)   
+from django.db.models.signals import post_save,pre_save,pre_delete,post_delete
+from django.dispatch import receiver
 
+@receiver(pre_save,sender=LeaveForm)
+def leave_pre_save_receiver(sender, instance, *args,**kwargs):
+    print(instance.leave_type ,instance.id)
+
+
+@receiver(post_save,sender=LeaveForm)
+def leave_post_save_receiver(sender,instance,created, **kwargs):
+        if created:
+            print("send leave",instance.leave_type)
+            instance.save()
+        else:
+            print(instance.leave_type, 'just saved')
+            print("LEAVEFORM OBJECT CREATED")
+            print(sender,instance,kwargs)
+
+@receiver(pre_delete,sender=LeaveForm)
+def leave_pre_delete_receiver(sender, instance, *args,**kwargs):
+    print(instance.id,'Will Be Removed')
+
+
+@receiver(post_delete,sender=LeaveForm)
+def leave_post_delete_receiver(sender,instance,created, **kwargs):
+    print(instance.id,'Has Removed')
+     
 
 class TimeLog(models.Model):
     
