@@ -29,21 +29,21 @@ from django.db.models import *
 #                                           is_approved= True
 #                                           )
 # print(user)
-userobj = User.objects.get(id=1)
-userobj2 = User.objects.get(id=39)
+# userobj = User.objects.get(id=1)
+# userobj2 = User.objects.get(id=39)
 # for user in userobj:
 #     print(user.email)
-leave, created = LeaveForm.objects.get_or_create(
+# leave, created = LeaveForm.objects.get_or_create(
     
-                                                 applicant= userobj2 ,
-                                                 reason = 'Sick',
-                                                 leave_type= 'Leave',
-                                                 leave_detail = 'leave from home',
-                                                 type_of_request = 'Half Day',
-                                                 status = 'Approve',
-                                                 approve_by_id= userobj,
-                                                 start_date = "2023-8-10",
-                                                 end_date = "2023-8-12"    )
+#                                                  applicant= userobj2 ,
+#                                                  reason = 'Sick',
+#                                                  leave_type= 'Leave',
+#                                                  leave_detail = 'leave from home',
+#                                                  type_of_request = 'Half Day',
+#                                                  status = 'Approve',
+#                                                  approve_by_id= userobj,
+#                                                  start_date = "2023-8-10",
+#                                                  end_date = "2023-8-12"    )
      
 
 
@@ -328,4 +328,22 @@ leave, created = LeaveForm.objects.get_or_create(
         
     #    user.last_name= user.last_name+ ' abc'
     #    user.save()
-    #    print(user.last_name) 
+    #    print(user.last_name)
+
+from django.db.models.signals import post_save,pre_delete
+from django.dispatch import receiver
+
+@receiver(post_save,sender=LeaveForm)
+def create_leave(sender,instance,created, **kwargs):
+          print("LEAVEFORM OBJECT CREATED")
+          print(sender,instance,kwargs)
+
+# @receiver(post_save,sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         User.objects.create(user=instance)
+  
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#         instance.profile.save()
+

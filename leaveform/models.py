@@ -45,7 +45,8 @@ def leave_pre_delete_receiver(sender, instance, *args,**kwargs):
 
 
 @receiver(post_delete,sender=LeaveForm)
-def leave_post_delete_receiver(sender,instance,created, **kwargs):
+def leave_post_delete_receiver(sender,instance, **kwargs):
+   
     print(instance.id,'Has Removed')
      
 
