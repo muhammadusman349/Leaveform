@@ -330,13 +330,13 @@ from django.db.models import *
     #    user.save()
     #    print(user.last_name)
 
-from django.db.models.signals import post_save,pre_delete
-from django.dispatch import receiver
+# from django.db.models.signals import post_save,pre_delete
+# from django.dispatch import receiver
 
-@receiver(post_save,sender=LeaveForm)
-def create_leave(sender,instance,created, **kwargs):
-          print("LEAVEFORM OBJECT CREATED")
-          print(sender,instance,kwargs)
+# @receiver(post_save,sender=LeaveForm)
+# def create_leave(sender,instance,created, **kwargs):
+#           print("LEAVEFORM OBJECT CREATED")
+#           print(sender,instance,kwargs)
 
 # @receiver(post_save,sender=User)
 # def create_profile(sender, instance, created, **kwargs):
