@@ -9,7 +9,8 @@ import time
 from datetime import datetime
 from django.utils import timezone
 
-
+#A class state cannot be accessed or modified by a static method.
+#The static method does not accept any specific parameter.
 #static method cannot access the class or instance data,they cannot modify the class state.
 #static method cannot change the behavior or affect a class
 #static method does not depend on the state of an instance or class
